@@ -42,16 +42,18 @@ class RoomEnv(gym.Env):
         # Reward/done function.
         reward = -0.1
         done = False
-        # Check goal.
-        if self.MAP_[self.robot_pos[0]][self.robot_pos[1]] == "G":
-            reward = 10.0
-            done = True
+
         # Check room boundaries and obstacles.
-        elif self.robot_pos[0] < 0 or self.robot_pos[0] >= 8 or \
+        if self.robot_pos[0] < 0 or self.robot_pos[0] >= 8 or \
                 self.robot_pos[1] < 0 or self.robot_pos[1] >= 8 or \
                 self.MAP_[self.robot_pos[0]][self.robot_pos[1]] == "O":
             self.robot_pos = orig_pos
             reward = -1.0
+
+        # Check, whether we have reached the goal.
+        if self.MAP_[self.robot_pos[0]][self.robot_pos[1]] == "G":
+            reward = 10.0
+            done = True
 
         # Determine, whether episode is over.
         if done is False:
@@ -67,3 +69,17 @@ class RoomEnv(gym.Env):
     def _get_obs(self):
         int_pos = self.robot_pos[0] * 8 + self.robot_pos[1]
         return int_pos
+
+
+if __name__ == "__main__":
+    # Test the env.
+    env = RoomEnv()
+    env.reset()
+    done = False
+    episode_reward = 0.0
+    while not done:
+        action = env.action_space.sample()
+        _, reward, done, _ = env.step(action)
+        episode_reward += reward
+
+    print(f"Reward={episode_reward} after 1 episode.")
