@@ -2,6 +2,8 @@ import gym
 
 
 class RoomEnv(gym.Env):
+    # DO NOT CHANGE. ENV IS ALREADY COMPLETED.
+
     # Row major map (0-based indices).
     MAP_ = [
         "S    OO ",
