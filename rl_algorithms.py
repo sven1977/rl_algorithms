@@ -29,7 +29,7 @@ import torch
 #import tensorflow as tf
 
 from rl_generic.room_env import RoomEnv
-from rl_generic.models import MyKerasModel
+from rl_generic.models import MyTorchModel  #, MyKerasModel
 
 
 class DQN:
