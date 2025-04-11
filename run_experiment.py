@@ -1,27 +1,4 @@
-# Given a simple grid-worl/robot navigation problem (see map below):
-# ----------   R=robot, O=obstacle, G=goal
-# |R    OO |
-# |     OO |
-# |O       |
-# |        |
-# |    O   |
-# |  OOO   |
-# |        |
-# |  O    G|
-# ----------
-# .. implement a very simple Q-learning algorithm or - alternatively - a very simple
-# policy gradient algorithm and try to run it and have it learn how to act
-# optimally in the environment. In case you chose the policy gradient solution,
-# you won't need to implement an extra value function (also no value function loss
-# term, just use the raw environment returns).
-
-# Also:
-# - Chose a deep learning framework (torch preferred, but tf also ok).
-# - Use the already provided environment class `RoomEnv` and one of the given
-#   model classes (`MyTorchModel`, `MyKerasModel`). See the already provided imports
-#   below.
-
-import gym
+import gymnasium as gym
 from typing import Union
 
 # Pick either DL-framework.
@@ -37,7 +14,7 @@ class DQN:
         self.env: gym.Env = RoomEnv()
         self.model: Union["torch.nn.Module", "tf.keras.Model"] = MyTorchModel()  # MyKerasModel()
 
-        self.last_obs = self.env.reset()
+        self.last_obs, _ = self.env.reset()
 
         self.gamma = 0.99
         self.batch_size = 256
@@ -71,10 +48,8 @@ class VPG:
         self.env: gym.Env = RoomEnv()
         self.model: Union["torch.nn.Module", "tf.keras.Model"] = MyTorchModel()  # MyKerasModel()
 
-        self.last_obs = self.env.reset()
-
         self.gamma = 0.99
-        self.learning_rate = 2e-5
+        self.learning_rate = 1e-4
         self.optimizer = torch.optim.Adam(lr=self.learning_rate, params=self.model.parameters())
         #self.optimizer = tf.keras.optimizers.Adam(lr=self.learning_rate)
 

@@ -13,7 +13,9 @@ class MyTorchModel(torch.nn.Module):
         self.outputs = torch.nn.Linear(64, 4)
 
     def forward(self, inputs):
-        one_hot = torch.nn.functional.one_hot(inputs, num_classes=64)
+        one_hot = torch.nn.functional.one_hot(
+          inputs, num_classes=64
+        )
         layer1 = self.layer(one_hot.float())
         layer1 = torch.nn.functional.relu(layer1)
         return self.outputs(layer1)
